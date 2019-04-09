@@ -25,6 +25,7 @@ import {getContainersWithHignNetIO,
   getContainersWithHighCPUUsage,
   getContainersWithHighMemoryUsage} from '@/api/metrics'
 import {fetchEndpointInfo, fetchEndpointList} from '@/api/endpoint'
+import {fetchSettings} from '@/api/setting'
 
 export default {
   components: {
@@ -40,10 +41,12 @@ export default {
       containersWithHighCPUUsage: [],
       containersWithHighMemoryUsage: [],
       currentEndpointInfo: null,
-      endpointList: []
+      endpointList: [],
+      settings: {}
     }
   },
   async mounted () {
+    this.settings = await this.fetchSettings()
     const [containersWithHignNetIO,
       containersWithHignDiskIO,
       containersWithHighCPUUsage,
@@ -51,10 +54,10 @@ export default {
       currentEndpointInfo,
       endpointList
     ] = await Promise.all([
-      getContainersWithHignNetIO(),
-      getContainersWithHignDiskIO(),
-      getContainersWithHighCPUUsage(),
-      getContainersWithHighMemoryUsage(),
+      getContainersWithHignNetIO(this.settings),
+      getContainersWithHignDiskIO(this.settings),
+      getContainersWithHighCPUUsage(this.settings),
+      getContainersWithHighMemoryUsage(this.settings),
       fetchEndpointInfo(),
       fetchEndpointList()
     ])
@@ -65,7 +68,16 @@ export default {
     this.currentEndpointInfo = currentEndpointInfo
     this.endpointList = endpointList
   },
-  methods: {}
+  methods: {
+    async fetchSettings () {
+      const obj = {}
+      const settings = await fetchSettings()
+      settings.forEach((settings) => {
+        obj[settings.key] = settings.value
+      })
+      return obj
+    }
+  }
 }
 </script>
 

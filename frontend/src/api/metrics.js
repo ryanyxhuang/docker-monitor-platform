@@ -1,15 +1,15 @@
 import axios from './base'
-import {NetIOThreshold, DiskIOThreshold, CPUUsageThreshold, MemoryUsageThreshold, PromAccount, Interval} from '@/common/constants'
+// import {NetIOThreshold, DiskIOThreshold, CPUUsageThreshold, MemoryUsageThreshold, PromAccount, Interval} from '@/common/constants'
 import {b64EncodeUnicode, byteTransferConver, byteConver} from '@/util'
 
 export async function getContainersWithHignNetIO (payload = {}) {
   const resp = await axios({
     method: 'POST',
     url: `/endpoint/local/prom/api/v1/query`,
-    data: {'query': `sum(rate(container_network_receive_bytes_total{id=~"/docker/.*"}[${Interval}]) + rate(container_network_transmit_bytes_total{id=~"/docker/.*"}[${Interval}])) by (name) >${NetIOThreshold}`
+    data: {'query': `sum(rate(container_network_receive_bytes_total{id=~"/docker/.*"}[${payload.promInterval}]) + rate(container_network_transmit_bytes_total{id=~"/docker/.*"}[${payload.promInterval}])) by (name) >${payload.netIOThreshold}`
     },
     headers: {
-      'Authorization': `Basic ${b64EncodeUnicode(PromAccount)}`
+      'Authorization': `Basic ${b64EncodeUnicode(payload.promAccount)}`
     }
   })
 
@@ -27,10 +27,10 @@ export async function getContainersWithHignDiskIO (payload = {}) {
   const resp = await axios({
     method: 'POST',
     url: `/endpoint/local/prom/api/v1/query`,
-    data: {'query': `sum(rate(container_fs_io_current{id=~"/docker/.*"}[${Interval}])) by (name) > ${DiskIOThreshold}`
+    data: {'query': `sum(rate(container_fs_io_current{id=~"/docker/.*"}[${payload.promInterval}])) by (name) > ${payload.diskIOThreshold}`
     },
     headers: {
-      'Authorization': `Basic ${b64EncodeUnicode(PromAccount)}`
+      'Authorization': `Basic ${b64EncodeUnicode(payload.promAccount)}`
     }
   })
 
@@ -45,13 +45,14 @@ export async function getContainersWithHignDiskIO (payload = {}) {
 }
 
 export async function getContainersWithHighCPUUsage (payload = {}) {
+  console.log(payload.promInterval, payload.cpuUsageThreshold, `sum(irate(container_cpu_usage_seconds_total{id=~"/docker/.*"}[${payload.promInterval}])) by (name) * 100 > ${payload.cpuUsageThreshold}`)
   const resp = await axios({
     method: 'POST',
     url: `/endpoint/local/prom/api/v1/query`,
-    data: {'query': `sum(irate(container_cpu_usage_seconds_total{id=~"/docker/.*"}[${Interval}])) by (name) * 100 > ${CPUUsageThreshold}`
+    data: {'query': `sum(irate(container_cpu_usage_seconds_total{id=~"/docker/.*"}[${payload.promInterval}])) by (name) * 100 > ${payload.cpuUsageThreshold}`
     },
     headers: {
-      'Authorization': `Basic ${b64EncodeUnicode(PromAccount)}`
+      'Authorization': `Basic ${b64EncodeUnicode(payload.promAccount)}`
     }
   })
 
@@ -67,10 +68,10 @@ export async function getContainersWithHighMemoryUsage (payload = {}) {
   const resp = await axios({
     method: 'POST',
     url: `/endpoint/local/prom/api/v1/query`,
-    data: {'query': `avg_over_time(container_memory_usage_bytes{id=~"/docker/.*"}[${Interval}]) > ${MemoryUsageThreshold}`
+    data: {'query': `avg_over_time(container_memory_usage_bytes{id=~"/docker/.*"}[${payload.promInterval}]) > ${payload.memoryUsageThreshold}`
     },
     headers: {
-      'Authorization': `Basic ${b64EncodeUnicode(PromAccount)}`
+      'Authorization': `Basic ${b64EncodeUnicode(payload.promAccount)}`
     }
   })
 
