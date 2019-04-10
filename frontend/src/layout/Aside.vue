@@ -35,6 +35,7 @@
   aside {
     height: 100%;
     width: 280px;
+    background-color: rgb(72, 77, 81);
   }
   .aside-menu {
     width: 100%;
