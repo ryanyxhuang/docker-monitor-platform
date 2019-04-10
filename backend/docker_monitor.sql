@@ -9,7 +9,7 @@
  Target Server Version : 80015
  File Encoding         : utf-8
 
- Date: 04/09/2019 16:02:15 PM
+ Date: 04/10/2019 09:37:30 AM
 */
 
 SET NAMES utf8;
@@ -31,6 +31,24 @@ CREATE TABLE `endpoint` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `endpoint` VALUES ('local', '192.168.99.116:2376', '192.168.99.116:9090'), ('test', 'unix://var/run/docker.sock', 'localhost:9090');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `setting`
+-- ----------------------------
+DROP TABLE IF EXISTS `setting`;
+CREATE TABLE `setting` (
+  `key` varchar(20) NOT NULL,
+  `value` varchar(50) NOT NULL,
+  `unit` varchar(20) DEFAULT NULL,
+  `remark` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `setting`
+-- ----------------------------
+BEGIN;
+INSERT INTO `setting` VALUES ('netIOThreshold', '1', 'b/s', null), ('diskIOThreshold', '1', 'b/s', null), ('cpuUsageThreshold', '1', '%', null), ('memoryUsageThreshold', '1', null, null), ('promAccount', 'admin:admin', null, null), ('promInterval', '30m', null, null);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -34,9 +34,10 @@
 <style lang="scss">
   aside {
     height: 100%;
+    width: 280px;
   }
   .aside-menu {
-    width: 240px;
+    width: 100%;
     height: 100%;
     .el-menu-item {
       text-align: left;
