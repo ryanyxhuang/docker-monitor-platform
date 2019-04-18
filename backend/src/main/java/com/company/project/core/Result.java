@@ -1,10 +1,12 @@
 package com.company.project.core;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * 统一API响应结果封装
  */
+@JsonSerialize(include =  JsonSerialize.Inclusion.NON_NULL)
 public class Result<T> {
     private int code;
     private String message;

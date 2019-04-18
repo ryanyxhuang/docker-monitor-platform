@@ -40,6 +40,19 @@
           :show-overflow-tooltip="true"
           width="180">
         </el-table-column>
+        <el-table-column
+          label="操作"
+          width="120">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="routeToContainerLog(scope.row)"
+              icon="el-icon-document"
+              type="text"
+              size="small">
+              日志
+            </el-button>
+          </template>
+        </el-table-column>
         <!--<el-table-column-->
           <!--prop="NetworkSettings.Networks.IPAddress"-->
           <!--label="IP Address"-->
@@ -71,6 +84,7 @@ export default {
     let data = await fetchContainersList()
     this.containersList = data.map((container) => {
       return {
+        id: container.Id,
         name: container.Names[0],
         state: container.State,
         stack: container.Labels['com.docker.stack.namespace'],
@@ -80,7 +94,11 @@ export default {
       }
     })
   },
-  methods: {}
+  methods: {
+    routeToContainerLog (container) {
+      this.$router.push({name: 'containerLog', params: {id: container.id}})
+    }
+  }
 }
 </script>
 

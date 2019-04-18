@@ -15,6 +15,7 @@ com/company/project/core/ProjectConstant.class
 com/company/project/configurer/BaseMapperGeneratorPlugin.class
 com/company/project/model/Setting.class
 com/company/project/core/ResultGenerator.class
+com/company/project/controller/ElasticController.class
 com/company/project/service/SettingService.class
 com/company/project/controller/SettingController.class
 com/company/project/core/PromResult.class

@@ -14,6 +14,7 @@
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/configurer/MybatisConfigurer.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/impl/SettingServiceImpl.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/impl/EndpointServiceImpl.java
+/Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/controller/ElasticController.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/core/Service.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/core/PromResult.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/dao/SettingMapper.java

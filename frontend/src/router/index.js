@@ -5,6 +5,7 @@ import ContainersList from '@/view/ContainersList'
 import ServicesList from '@/view/ServicesList'
 import StacksList from '@/view/StacksList'
 import NodesList from '@/view/NodesList'
+import ContainerLog from '@/view/ContainerLog'
 
 Vue.use(Router)
 
@@ -33,6 +34,10 @@ export default new Router({
       path: '/swarm',
       name: 'nodesList',
       component: NodesList
+    }, {
+      path: '/containers/:id/log',
+      name: 'containerLog',
+      component: ContainerLog
     }
   ]
 })

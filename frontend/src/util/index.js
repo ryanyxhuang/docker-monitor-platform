@@ -12,6 +12,24 @@ export function deepCopy (obj) {
   return result
 }
 
+export function objectFlattened (obj) {
+  function _objectFlattened (obj, prefix) {
+    var result = Array.isArray(obj) ? [] : {}
+    for (var key in obj) {
+      const resultKey = prefix ? `${prefix}.${key}` : key
+      if (obj.hasOwnProperty(key)) {
+        if (typeof obj[key] === 'object') {
+          Object.assign(result, result, _objectFlattened(obj[key], resultKey))
+        } else {
+          result[resultKey] = obj[key]
+        }
+      }
+    }
+    return result
+  }
+  return _objectFlattened(obj, '')
+}
+
 export function getDeepValue (obj, key) {
   var result = []
   for (var k in obj) {
