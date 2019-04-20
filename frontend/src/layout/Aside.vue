@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss">
   aside {
-    height: 100%;
+    /*height: 100%;*/
     width: 280px;
     background-color: rgb(72, 77, 81);
   }
