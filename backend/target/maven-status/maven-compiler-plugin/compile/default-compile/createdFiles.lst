@@ -1,12 +1,17 @@
 com/company/project/service/impl/SettingServiceImpl.class
 com/company/project/dao/SettingMapper.class
 com/company/project/service/impl/EndpointServiceImpl.class
+com/company/project/controller/ComposeController.class
 com/company/project/configurer/WebMvcConfigurer.class
 com/company/project/core/BaseMapper.class
 com/company/project/core/Result.class
 com/company/project/core/ServiceException.class
 com/company/project/model/Endpoint.class
 com/company/project/configurer/MybatisConfigurer.class
+com/company/project/dao/ComposeMapper.class
+com/company/project/service/ComposeService.class
+com/company/project/service/impl/ComposeServiceImpl.class
+com/company/project/model/Compose.class
 com/company/project/core/Service.class
 com/company/project/core/ResultCode.class
 com/company/project/Application.class

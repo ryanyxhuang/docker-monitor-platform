@@ -25,6 +25,19 @@
             {{scope.row.services.length}}
           </template>
         </el-table-column>
+        <el-table-column
+          label="操作"
+          width="120">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="routeToStackAnalysis(scope.row)"
+              icon="el-icon-document"
+              type="text"
+              size="small">
+              依赖分析
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </section>
   </div>
@@ -55,6 +68,7 @@ export default {
       })
       if (!matches && stackName) {
         stacksList.push({
+          id: service.Id,
           name: stackName,
           services: [service],
           type: 'swarm'
@@ -63,7 +77,11 @@ export default {
     })
     this.stacksList = stacksList
   },
-  methods: {}
+  methods: {
+    routeToStackAnalysis (stack) {
+      this.$router.push({name: 'stackAnalysis', params: {id: stack.name}})
+    }
+  }
 }
 </script>
 
