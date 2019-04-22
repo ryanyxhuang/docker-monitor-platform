@@ -16,7 +16,6 @@ export default {
         animationEasingUpdate: 'quinticInOut',
         series: [
           {
-            name: 'Les Miserables',
             type: 'graph',
             layout: 'circular',
             data: this.graphData.nodes || [],
@@ -53,7 +52,7 @@ export default {
             },
             emphasis: {
               lineStyle: {
-                width: 3
+                width: 2.6
               }
             }
           }
