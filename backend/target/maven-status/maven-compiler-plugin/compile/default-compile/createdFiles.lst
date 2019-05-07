@@ -1,7 +1,10 @@
 com/company/project/service/impl/SettingServiceImpl.class
 com/company/project/dao/SettingMapper.class
 com/company/project/service/impl/EndpointServiceImpl.class
+com/company/project/service/ProxyService.class
+com/company/project/controller/ProxyController.class
 com/company/project/controller/ComposeController.class
+com/company/project/service/impl/ProxyServiceImpl.class
 com/company/project/configurer/WebMvcConfigurer.class
 com/company/project/core/BaseMapper.class
 com/company/project/core/Result.class

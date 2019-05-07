@@ -4,11 +4,13 @@
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/core/ResultCode.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/core/ResultGenerator.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/controller/ComposeController.java
+/Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/impl/ProxyServiceImpl.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/dao/ComposeMapper.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/core/Result.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/model/Endpoint.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/dao/EndpointMapper.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/configurer/MybatisConfigurer.java
+/Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/ProxyService.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/impl/EndpointServiceImpl.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/model/Setting.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/EndpointService.java
@@ -17,6 +19,7 @@
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/core/ServiceException.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/SettingService.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/configurer/WebMvcConfigurer.java
+/Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/controller/ProxyController.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/ComposeService.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/service/impl/SettingServiceImpl.java
 /Users/hyx/Desktop/毕业设计/docker-monitor-platform/backend/src/main/java/com/company/project/controller/ElasticController.java

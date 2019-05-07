@@ -9,11 +9,11 @@
             <div class="value">{{value}}</div>
           </li>
         </ul>
-        <ul class="endpoint-info-count">
-          <li><div>1</div>Stacks</li>
-          <li><div>9</div>Services</li>
-          <li><div>9</div>Containers</li>
-          <li><div>8</div>Images</li>
+        <ul class="endpoint-info-count" v-if="dataAnalysis">
+          <li><div>{{dataAnalysis.stacksNum}}</div>Stacks</li>
+          <li><div>{{dataAnalysis.servicesNum}}</div>Services</li>
+          <li><div>{{dataAnalysis.containersNum}}</div>Containers</li>
+          <!--<li><div>8</div>Images</li>-->
         </ul>
       </div>
     </section>
@@ -24,9 +24,10 @@
 import Info from '@/components/BaseInfo'
 
 export default {
-  props: ['endpointInfo'],
+  props: ['endpointInfo', 'dataAnalysis'],
   components: {Info},
-  methods: {}
+  methods: {
+  }
 }
 </script>
 
@@ -64,7 +65,7 @@ export default {
       }
     }
     &-count {
-      width: 400px;
+      width: 360px;
       margin-left: 16px;
       display: flex;
       li {

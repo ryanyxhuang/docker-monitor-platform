@@ -9,9 +9,12 @@
       />
       <endpoint-info class="endpoint-info"
         :endpointInfo="currentEndpointInfo"
+                     :dataAnalysis="dataAnalysis"
       />
       <endpoints-list class="endpoint-list"
         :endpointList="endpointList"
+        @createEndpoint="createEndpoint"
+        @setCurrentEndpoint="setCurrentEndpoint"
       />
   </div>
 </template>
@@ -24,8 +27,10 @@ import {getContainersWithHignNetIO,
   getContainersWithHignDiskIO,
   getContainersWithHighCPUUsage,
   getContainersWithHighMemoryUsage} from '@/api/metrics'
-import {fetchEndpointInfo, fetchEndpointList} from '@/api/endpoint'
+import {fetchEndpointInfo, fetchEndpointList, addEndpoint, setCurrentEndpoint} from '@/api/endpoint'
 import {fetchSettings} from '@/api/setting'
+import {fetchServicesList} from '@/api/service.js'
+import {fetchContainersList} from '@/api/container.js'
 
 export default {
   components: {
@@ -42,33 +47,38 @@ export default {
       containersWithHighMemoryUsage: [],
       currentEndpointInfo: null,
       endpointList: [],
-      settings: {}
+      settings: {},
+      dataAnalysis: {}
     }
   },
   async mounted () {
     this.settings = await this.fetchSettings()
-    const [containersWithHignNetIO,
-      containersWithHignDiskIO,
-      containersWithHighCPUUsage,
-      containersWithHighMemoryUsage,
-      currentEndpointInfo,
-      endpointList
-    ] = await Promise.all([
-      getContainersWithHignNetIO(this.settings),
-      getContainersWithHignDiskIO(this.settings),
-      getContainersWithHighCPUUsage(this.settings),
-      getContainersWithHighMemoryUsage(this.settings),
-      fetchEndpointInfo(),
-      fetchEndpointList()
-    ])
-    this.containersWithHignNetIO = containersWithHignNetIO
-    this.containersWithHignDiskIO = containersWithHignDiskIO
-    this.containersWithHighCPUUsage = containersWithHighCPUUsage
-    this.containersWithHighMemoryUsage = containersWithHighMemoryUsage
-    this.currentEndpointInfo = currentEndpointInfo
-    this.endpointList = endpointList
+    this.loadData()
+    this.loadAnalysis()
   },
   methods: {
+    async loadData () {
+      const [containersWithHignNetIO,
+        containersWithHignDiskIO,
+        containersWithHighCPUUsage,
+        containersWithHighMemoryUsage,
+        currentEndpointInfo,
+        endpointList
+      ] = await Promise.all([
+        getContainersWithHignNetIO(this.settings),
+        getContainersWithHignDiskIO(this.settings),
+        getContainersWithHighCPUUsage(this.settings),
+        getContainersWithHighMemoryUsage(this.settings),
+        fetchEndpointInfo(),
+        fetchEndpointList()
+      ])
+      this.containersWithHignNetIO = containersWithHignNetIO
+      this.containersWithHignDiskIO = containersWithHignDiskIO
+      this.containersWithHighCPUUsage = containersWithHighCPUUsage
+      this.containersWithHighMemoryUsage = containersWithHighMemoryUsage
+      this.currentEndpointInfo = currentEndpointInfo
+      this.endpointList = endpointList
+    },
     async fetchSettings () {
       const obj = {}
       const settings = await fetchSettings()
@@ -76,6 +86,50 @@ export default {
         obj[settings.key] = settings.value
       })
       return obj
+    },
+    async loadAnalysis () {
+      const [servicesList, containersList
+      ] = await Promise.all([
+        fetchServicesList(),
+        fetchContainersList()
+      ])
+
+      let stacksList = []
+      let matches = false
+      servicesList.forEach((service) => {
+        const stackName = service.Spec.Labels['com.docker.stack.namespace']
+        stacksList.forEach((stack) => {
+          if (stackName === stack.name) {
+            matches = true
+            stack.services.push(service)
+          }
+        })
+        if (!matches && stackName) {
+          stacksList.push({
+            id: service.Id,
+            name: stackName,
+            services: [service],
+            type: 'swarm'
+          })
+        }
+      })
+
+      this.dataAnalysis.stacksNum = stacksList.length
+      this.dataAnalysis.containersNum = containersList.length
+      this.dataAnalysis.servicesNum = servicesList.length
+    },
+    async createEndpoint (value) {
+      const error = await addEndpoint({ip: value})
+      if (!error) {
+        this.$message.success(`节点[ip: ${value}]创建成功`)
+        this.endpointList = await fetchEndpointList()
+      } else {
+        this.$message.error(`节点创建失败 ${error}`)
+      }
+    },
+    setCurrentEndpoint (name) {
+      setCurrentEndpoint(name)
+      this.loadData()
     }
   }
 }
