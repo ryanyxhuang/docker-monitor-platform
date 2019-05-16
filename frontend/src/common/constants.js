@@ -4,5 +4,5 @@
 // export const MemoryUsageThreshold = 1 // unit:b
 // export const PromAccount = 'admin:admin'
 // export const Interval = '30m'
-// export const BackendUrl = 'http://192.16.1.250:8081'
-export const BackendUrl = 'http://localhost:8081'
+export const BackendUrl = 'http://192.16.1.250:8081'
+// export const BackendUrl = 'http://localhost:8081'

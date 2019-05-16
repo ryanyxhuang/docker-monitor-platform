@@ -29,7 +29,12 @@
             <el-switch v-model="joinFormInfo.isManager"></el-switch>
           </el-form-item>
           <el-form-item label="IP">
-            <el-input v-model="joinFormInfo.ip"></el-input>
+            <el-autocomplete
+              v-model="joinFormInfo.ip"
+              :fetch-suggestions="querySearch"
+              placeholder="新增节点Ip"
+              @select="handleSelect"
+            ></el-autocomplete>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -82,7 +87,7 @@
 <script>
 import {fetchNodesList} from '@/api/node.js'
 import {fetchSwarmInfo, createSwarm, leaveSwarm, joinSwarm} from '@/api/swarm.js'
-import {fetchEndpointInfo} from '@/api/endpoint.js'
+import {fetchEndpointInfo, fetchEndpointList} from '@/api/endpoint.js'
 
 export default {
   components: {},
@@ -96,7 +101,8 @@ export default {
       joinFormInfo: {
         isManager: false,
         ip: ''
-      }
+      },
+      endpointList: []
     }
   },
   computed: {
@@ -110,6 +116,11 @@ export default {
     let currentEndpoint = await fetchEndpointInfo()
     currentEndpoint.ip = currentEndpoint.dockerUrl.split(':')[0]
     this.currentEndpoint = currentEndpoint
+    let endpointList = await fetchEndpointList()
+    endpointList.forEach((endpoint) => {
+      endpoint.ip = endpoint.dockerUrl.split(':')[0]
+    })
+    this.endpointList = endpointList
     this.fetchSwarmInfo()
   },
   methods: {
@@ -171,6 +182,23 @@ export default {
       } else {
         this.$message.error(error)
       }
+    },
+    querySearch (queryString, cb) {
+      var endpointList = queryString ? this.endpointList.filter((endpoint) => {
+        return endpoint.ip.indexOf(queryString) === 0
+      }) : this.endpointList
+      let results = []
+      endpointList.forEach((item) => {
+        if (!results.includes(item.ip)) {
+          results.push({value: item.ip})
+        }
+      })
+      console.log('results', results)
+      cb(results)
+    },
+    handleSelect (item) {
+      console.log('click', item.value)
+      this.joinFormInfo.ip = item.value
     }
   }
 }

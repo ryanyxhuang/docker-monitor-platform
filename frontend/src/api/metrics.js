@@ -69,10 +69,10 @@ export async function getContainersWithHighMemoryUsage (payload = {}) {
   const resp = await axios({
     method: 'POST',
     url: `/endpoint/${getCurrentEndpoint()}/prom/api/v1/query`,
-    data: {'query': `avg_over_time(container_memory_usage_bytes{id=~"/docker/.*"}[${payload.promInterval}]) > ${payload.memoryUsageThreshold}`
-    },
     headers: {
       'Authorization': `Basic ${b64EncodeUnicode(payload.promAccount)}`
+    },
+    data: {'query': `avg_over_time(container_memory_usage_bytes{id=~"/docker/.*"}[${payload.promInterval}]) > ${payload.memoryUsageThreshold}`
     }
   })
 
