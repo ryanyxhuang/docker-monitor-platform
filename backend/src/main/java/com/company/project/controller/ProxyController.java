@@ -34,7 +34,7 @@ public class ProxyController {
             return ResultGenerator.genFailResult(400, "proxyTargetIp值不为空");
         }
 
-        String dockerUrl = ip + ":2376";
+        String dockerUrl = ip + ":2375";
 
         String newURI = "http://" + dockerUrl + request.getRequestURI().replaceFirst("^(.+?)/docker", "");
 
