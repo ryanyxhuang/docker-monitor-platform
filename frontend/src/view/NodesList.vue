@@ -133,15 +133,13 @@ export default {
       }
       let data = await fetchNodesList()
       this.nodesList = data.map((node) => {
-        if (node.Status.State === 'ready') {
-          return {
-            name: node.Description.Hostname,
-            role: node.Spec.Role,
-            nanoCPUs: node.Description.Resources.NanoCPUs,
-            engine: node.Description.Engine.EngineVersion,
-            address: node.Status.Addr,
-            status: node.Status.State
-          }
+        return {
+          name: node.Description.Hostname,
+          role: node.Spec.Role,
+          nanoCPUs: node.Description.Resources.NanoCPUs,
+          engine: node.Description.Engine.EngineVersion,
+          address: node.Status.Addr,
+          status: node.Status.State
         }
       })
     },

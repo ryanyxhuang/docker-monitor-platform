@@ -30,7 +30,7 @@ export async function addEndpoint (payload = {}) {
     data: {
       name: payload.name || payload.ip,
       ip: payload.ip,
-      dockerUrl: `${payload.ip}:2376`,
+      dockerUrl: `${payload.ip}:2375`,
       promUrl: `${payload.ip}:9090`
     }
   })
