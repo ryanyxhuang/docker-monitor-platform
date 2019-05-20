@@ -71,13 +71,13 @@ export function byteConver (limit, decimal) {
   limit = Number(limit)
   let size = ''
   if (limit < 0.1 * 1024) { // 如果小于0.1KB转化成B
-    size = limit.toFixed(decimal) + 'B/s'
+    size = limit.toFixed(decimal) + 'B'
   } else if (limit < 0.1 * 1024 * 1024) { // 如果小于0.1MB转化成KB
-    size = (limit / 1024).toFixed(decimal) + 'KB/s'
+    size = (limit / 1024).toFixed(decimal) + 'KB'
   } else if (limit < 0.1 * 1024 * 1024 * 1024) { // 如果小于0.1GB转化成MB
-    size = (limit / (1024 * 1024)).toFixed(decimal) + 'MB/s'
+    size = (limit / (1024 * 1024)).toFixed(decimal) + 'MB'
   } else { // 其他转化成GB
-    size = (limit / (1024 * 1024 * 1024)).toFixed(decimal) + 'GB/s'
+    size = (limit / (1024 * 1024 * 1024)).toFixed(decimal) + 'GB'
   }
   return size
 }
