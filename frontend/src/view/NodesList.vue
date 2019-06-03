@@ -86,7 +86,7 @@
 
 <script>
 import {fetchNodesList} from '@/api/node.js'
-import {fetchSwarmInfo, createSwarm, leaveSwarm, joinSwarm} from '@/api/swarm.js'
+import {fetchSwarmInfo, createSwarm, leaveSwarm, joinSwarm, saveSwarm, addManagerNode, removeManagerNode} from '@/api/swarm.js'
 import {fetchEndpointInfo, fetchEndpointList} from '@/api/endpoint.js'
 
 export default {
@@ -151,6 +151,7 @@ export default {
       if (!error) {
         this.$message.success('集群创建成功')
         this.fetchSwarmInfo()
+        saveSwarm(this.currentEndpoint)
       } else {
         this.$message.error(error)
       }
@@ -159,6 +160,7 @@ export default {
       let errormsg = ''
       this.nodeSelection.forEach(async (node) => {
         const error = await leaveSwarm(node.address)
+        await removeManagerNode(node.address)
         if (error) {
           errormsg += error
         }
@@ -173,11 +175,13 @@ export default {
     async joinSwarm () {
       const role = this.joinFormInfo.isManager ? 'Manager' : 'Worker'
       const JoinToken = this.swarmInfo.JoinTokens[role]
-      console.log('joinSwarm', this.currentEndpoint.ip, JoinToken, this.managerNodes[0].address)
       const error = await joinSwarm(this.joinFormInfo.ip, JoinToken, this.managerNodes[0].address)
       if (!error) {
         this.$message.success('节点加入集群')
         this.fetchSwarmInfo()
+        if (role === 'Manager') {
+          addManagerNode(this.joinFormInfo.ip)
+        }
         this.dialogVisible = false
       } else {
         this.$message.error(error)

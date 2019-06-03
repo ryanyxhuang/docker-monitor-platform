@@ -7,6 +7,7 @@ import StacksList from '@/view/StacksList'
 import NodesList from '@/view/NodesList'
 import ContainerLog from '@/view/ContainerLog'
 import StackAnalysis from '@/view/StackAnalysis'
+import Config from '@/view/Config'
 
 Vue.use(Router)
 
@@ -43,6 +44,10 @@ export default new Router({
       path: '/stack/:id/analysis',
       name: 'stackAnalysis',
       component: StackAnalysis
+    }, {
+      path: '/config',
+      name: 'config',
+      component: Config
     }
   ]
 })

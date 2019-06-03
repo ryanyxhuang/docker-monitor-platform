@@ -28,10 +28,10 @@
         <i class="el-icon-news"></i>
         <span slot="title">Swarm</span>
       </el-menu-item>
-      <!--<el-menu-item index="log">-->
-        <!--<i class="el-icon-view"></i>-->
-        <!--<span slot="title">日志</span>-->
-      <!--</el-menu-item>-->
+      <el-menu-item index="config">
+        <i class="el-icon-view"></i>
+        <span slot="title">设置</span>
+      </el-menu-item>
     </el-menu>
   </aside>
 </template>

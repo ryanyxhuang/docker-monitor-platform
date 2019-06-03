@@ -1,7 +1,10 @@
 <template>
   <div class="nodes-list">
     <section class="card">
-      <h3 class="sub-title">主机列表</h3>
+      <h3 class="sub-title">
+        主机列表
+        <span style="float: right;opacity: 0.8" v-if="currentEndpoint"><i class="el-icon-info"></i> 当前主机 &nbsp;&nbsp;{{currentEndpoint.name}}</span>
+      </h3>
       <div class="action-bar">
         <el-button type="primary"
                    @click="openEndpointDialog">
@@ -24,14 +27,14 @@
           label="Docker Url"
           width="300">
         </el-table-column>
-        <el-table-column
-          prop="promUrl"
-          label="Promethus Url"
-          width="300">
-        </el-table-column>
+        <!--<el-table-column-->
+          <!--prop="promUrl"-->
+          <!--label="Promethus Url"-->
+          <!--width="300">-->
+        <!--</el-table-column>-->
         <el-table-column
           label="操作"
-          width="120">
+          width="160">
           <template slot-scope="scope">
             <el-button
               @click.native.prevent="setCurrentEndpoint(scope.row.name)"
@@ -48,7 +51,7 @@
 
 <script>
 export default {
-  props: ['endpointList'],
+  props: ['endpointList', 'currentEndpoint'],
   methods: {
     openEndpointDialog () {
       this.$prompt('节点ip', '创建节点', {

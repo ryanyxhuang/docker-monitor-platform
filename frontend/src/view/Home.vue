@@ -16,11 +16,17 @@
         @createEndpoint="createEndpoint"
         @setCurrentEndpoint="setCurrentEndpoint"
       />
+      <!--<swarms-list class="swarm-list"-->
+        <!--:swarmList="swarmList"-->
+        <!--@createEndpoint="createEndpoint"-->
+        <!--@setCurrentEndpoint="setCurrentEndpoint"-->
+      <!--/>-->
   </div>
 </template>
 
 <script>
 import EndpointsList from '@/components/EndpointsList'
+import SwarmsList from '@/components/SwarmsList'
 import EndpointInfo from '@/components/EndpointInfo'
 import MonitorSummary from '@/components/MonitorSummary'
 import {getContainersWithHignNetIO,
@@ -31,12 +37,14 @@ import {fetchEndpointInfo, fetchEndpointList, addEndpoint, setCurrentEndpoint} f
 import {fetchSettings} from '@/api/setting'
 import {fetchServicesList} from '@/api/service.js'
 import {fetchContainersList} from '@/api/container.js'
+import {fetchSwarmList} from '@/api/swarm.js'
 
 export default {
   components: {
     EndpointsList,
     EndpointInfo,
-    MonitorSummary
+    MonitorSummary,
+    SwarmsList
   },
   data () {
     return {
@@ -47,6 +55,7 @@ export default {
       containersWithHighMemoryUsage: [],
       currentEndpointInfo: null,
       endpointList: [],
+      swarmList: [],
       settings: {},
       dataAnalysis: {}
     }
@@ -54,30 +63,44 @@ export default {
   async mounted () {
     this.settings = await this.fetchSettings()
     this.loadData()
+    this.loadMetrics()
+    setInterval(() => this.loadMetrics(), 20000)
     this.loadAnalysis()
   },
   methods: {
     async loadData () {
-      const [containersWithHignNetIO,
+      const [currentEndpointInfo,
+        endpointList,
+        swarmList,
+      ] = await Promise.all([
+        fetchEndpointInfo(),
+        fetchEndpointList(),
+        fetchSwarmList(),
+        getContainersWithHignNetIO(this.settings),
+        getContainersWithHignDiskIO(this.settings),
+        getContainersWithHighCPUUsage(this.settings),
+        getContainersWithHighMemoryUsage(this.settings)
+      ])
+      this.currentEndpointInfo = currentEndpointInfo
+      this.endpointList = endpointList
+      this.swarmList = swarmList
+    },
+    async loadMetrics () {
+      const [
+        containersWithHignNetIO,
         containersWithHignDiskIO,
         containersWithHighCPUUsage,
-        containersWithHighMemoryUsage,
-        currentEndpointInfo,
-        endpointList
+        containersWithHighMemoryUsage
       ] = await Promise.all([
         getContainersWithHignNetIO(this.settings),
         getContainersWithHignDiskIO(this.settings),
         getContainersWithHighCPUUsage(this.settings),
-        getContainersWithHighMemoryUsage(this.settings),
-        fetchEndpointInfo(),
-        fetchEndpointList()
+        getContainersWithHighMemoryUsage(this.settings)
       ])
       this.containersWithHignNetIO = containersWithHignNetIO
       this.containersWithHignDiskIO = containersWithHignDiskIO
       this.containersWithHighCPUUsage = containersWithHighCPUUsage
       this.containersWithHighMemoryUsage = containersWithHighMemoryUsage
-      this.currentEndpointInfo = currentEndpointInfo
-      this.endpointList = endpointList
     },
     async fetchSettings () {
       const obj = {}
